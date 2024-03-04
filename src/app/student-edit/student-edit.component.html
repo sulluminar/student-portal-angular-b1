@@ -1,0 +1,43 @@
+<div class="d-flex">
+    <div class="sidebar d-flex flex-column p-5"
+        style="height: 90vh;width: 250px; background-color: rgb(199, 205, 128);">
+        <a routerLink="/dashboard"
+            style="text-decoration: none; color: white; margin-top: 20px; font-weight: 700;">Dashboard</a>
+        <a routerLink="/students"
+            style="text-decoration: none; color: white; margin-top: 20px; font-weight: 700;">Student List</a>
+    </div>
+    <div class="d-flex w-100 justify-content-center align-items-center flex-column p-3">
+        <h2 style="color: rgb(93, 226, 222);">Update Student Details</h2>
+        <form action="" class="border rounded p-5 shadow mt-5 w-50">
+            <div class="mb-3">
+                <input type="text" name="id" id="" 
+                [(ngModel)] = "student.id" disabled
+                placeholder="Student ID" class="form-control">
+            </div>
+            <div class="mb-3">
+                <input type="text" name="email"
+                [(ngModel)] = "student.email"
+                id="" placeholder="Email" class="form-control">
+            </div>
+            <div class="mb-3">
+                <input type="text" name="name" 
+                [(ngModel)] = "student.name"
+                id="" placeholder="Username" class="form-control">
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-select" 
+                name="status"
+                [(ngModel)] = "student.status"
+                id="floatingSelect" aria-label="Floating label select example">
+                  <option value="1">Active</option>
+                  <option value="0">Inactive</option>
+                </select>
+                <label for="floatingSelect">Select status</label>
+              </div>
+              <div class="mb-3">
+                <button class="btn btn-warning" (click)="restore(student.id)">Cancel</button>
+                <button class="btn btn-success ms-4" (click)="editStudent(student.id)">Update</button>
+              </div>
+        </form>
+    </div>
+</div>
