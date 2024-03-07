@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminapiService } from '../service/adminapi.service';
 import Swal from 'sweetalert2';
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 @Component({
   selector: 'app-student-list',
@@ -10,6 +12,7 @@ import Swal from 'sweetalert2';
 export class StudentListComponent implements OnInit {
   allStudents: any = [];
   searchKey:string= "";
+  p:number = 1;
   constructor(private api: AdminapiService) { }
   ngOnInit(): void {
     this.getAllStudents()
@@ -57,5 +60,17 @@ export class StudentListComponent implements OnInit {
       return a.name.localeCompare(b.name)
     })
   }
-
+generatePdf(){
+  const pdf = new jsPDF();
+  let head=[['id','Student Name','Email','Status']]
+  let body:any = []
+  this.allStudents.forEach((item:any)=>{
+    body.push([item.id,item.name, item.email, item.status])
+  })
+  pdf.setFontSize(16);
+  pdf.text('Student Details',10,10)
+  autoTable(pdf,{head:head,body:body})
+  pdf.output('dataurlnewwindow')
+  pdf.save("student-details.pdf")
+}
 }
