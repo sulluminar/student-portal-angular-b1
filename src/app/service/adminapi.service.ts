@@ -1,6 +1,7 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -28,5 +29,14 @@ export class AdminapiService {
   }
   updateStudent(id:any, reqBody:any){
     return this.http.put(`${this.server_url}/student/${id}`,reqBody)
+  }
+  updateAdmin(admin:any){
+    return this.http.put(`${this.server_url}/student/1`,admin)
+  }
+  // create a behavioural subject with an initial value
+  public sharedData= new BehaviorSubject(false)
+  // create a function to update value
+  updateData(data:any){
+    this.sharedData.next(data)
   }
 }

@@ -32,6 +32,9 @@ export class LoginComponent {
               text: "Login Successfull",
               icon: "success"
             });
+            this.api.updateData({data:true})
+            localStorage.setItem("name",res.name);
+            localStorage.setItem("password", res.password)
             this.router.navigateByUrl('dashboard')
           }
           else {

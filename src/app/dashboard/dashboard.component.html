@@ -13,7 +13,7 @@
                 <div class="row w-100">
                     <div class="col-md-12 rounded d-flex align-items-center"
                         style="background-color: aqua; height: 100px;">
-                        <h3 class="text-light"><i class="fa-solid fa-bars me-3" (click)="menuBar()"></i>Welcome Admin
+                        <h3 class="text-light"><i class="fa-solid fa-bars me-3" (click)="menuBar()"></i>Welcome {{adminName}}
                         </h3>
                     </div>
                 </div>
@@ -41,12 +41,16 @@
                     <button *ngIf="!editAdminStatus" class="btn mt-3" (click)="edit()">Edit Admin Details<i class="fa-solid fa-pen-nib ms-3"></i></button>
                     <div *ngIf="editAdminStatus" class="d-flex justify-content-center align-items-center flex-column">
                         <h3>Update Admin Details</h3>
-                        <img [src]="profileImage" alt="" width="150px" height="150px" style="border-radius: 50%;">
-                        <input type="text" placeholder="Name" class="form-control mt-3">
-                        <input type="text" placeholder="password" class="form-control mt-3">
+                        <label>
+                            <input type="file" (change)="getFile($event)" style="display: none;">
+                            <img [src]="profileImage" alt="" width="150px" height="150px" style="border-radius: 50%;">
+                        </label>
+                        
+                        <input type="text" [(ngModel)]="adminDetails.name" name="adminname" placeholder="Name" class="form-control mt-3">
+                        <input type="text" [(ngModel)]="adminDetails.password" name="adminpwd" placeholder="password" class="form-control mt-3">
                         <div class="d-flex justify-content-between mt-3 w-100">
-                            <button class="btn btn-outline-warning">Cancel</button>
-                            <button class="btn btn-outline-success">Update</button>
+                            <button class="btn btn-outline-warning" (click)="returnFromEdit()">Cancel</button>
+                            <button class="btn btn-outline-success" (click)="updateAdmin()">Update</button>
                         </div>
                     </div>
                 </div>

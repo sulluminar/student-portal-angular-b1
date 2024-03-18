@@ -14,7 +14,9 @@ export class DashboardComponent implements OnInit {
   studentCount: number = 0;
   Highcharts = Highcharts;
   chartOptions: {};
+  adminName: any;
   editAdminStatus: boolean = false;
+  adminDetails: any = {};
   profileImage: string = './assets/images/user1.png';
   constructor(private api: AdminapiService) {
     this.chartOptions = {
@@ -85,6 +87,18 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getTotalStudents()
+    if (localStorage.getItem("name")) {
+      this.adminName = localStorage.getItem("name")
+    }
+    this.api.loginAdmin().subscribe((res: any) => {
+      this.adminDetails = res;
+      console.log("===admin details===")
+      console.log(this.adminDetails)
+      if(res.picture){
+        this.profileImage = res.picture
+      }
+    })
+
   }
 
   menuBar() {
@@ -103,5 +117,36 @@ export class DashboardComponent implements OnInit {
   }
   edit() {
     this.editAdminStatus = true;
+  }
+  returnFromEdit() {
+    this.editAdminStatus = false;
+  }
+  getFile(event: any) {
+    let fileDetails = event.target.files[0];
+    //FileReader is used to convert the image selected into url
+    // first create an object of Filereader
+    let fr = new FileReader()
+    fr.readAsDataURL(fileDetails);
+    fr.onload = (event:any)=>{
+      console.log(event.target.result)
+      this.profileImage = event.target.result;
+      this.adminDetails.picture= this.profileImage;
+    }
+  }
+  updateAdmin(){
+    console.log("update details==")
+    console.log(this.adminDetails);
+    this.api.updateAdmin(this.adminDetails).subscribe({
+      next:(res:any)=>{
+        console.log(res);
+        localStorage.setItem("name",res.name);
+        localStorage.setItem("password",res.password);
+        this.adminName = localStorage.getItem("name")
+        this.editAdminStatus = false;
+      },
+      error:(err:any)=>{
+        console.log(err)
+      }
+    })
   }
 }
